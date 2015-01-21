@@ -98,4 +98,4 @@ points(tmp.sig$baseMean, tmp.sig$log2FoldChange, pch=20, cex=0.45, col="red")
 # 2 FC lines
 abline(h=c(-1,1), col="blue")
 ```
-![plot](./img/plot.jpg)
+![plot](../img/plot.jpg)
