@@ -119,3 +119,69 @@ $ head output/Cgigas-DEGlist
 "CGI_10000044" 99.323294499693 -0.983269769106292 0.303833988964608 -3.23620728693665 0.00121129387452765 0.0109381433679098
 "CGI_10000052" 141.474372787837 1.44028645476959 0.543464288579468 2.65019521068123 0.0080445274939067 0.044439526881662
 ```
+
+Need to convert
+
+```
+sed 's/"//g' output/Cgigas-DEGlist > output/Cgigas-DEGlist-sql
+```
+
+#SQLshare
+
+```
+SELECT SPID, basemean as DiffEx_ID FROM [sr320@washington.edu].[qDOD Cgigas Gene Descriptions (Swiss-prot)]sp
+left join
+[sr320@washington.edu].[Cgigas-DEGlist-sql]de
+on
+sp.CGI_ID=de.baseMean  ​
+```
+
+output 
+
+```
+head CGI-deseqlist-join.csv 
+CGI_ID,SPID,evalue,Description,baseMean,log2FoldChange,lfcSE,stat,pvalue,padj,Column7
+CGI_10000001,Q9CR41,2E-29,Huntingtin-interacting protein K,,,,,,,
+CGI_10000002,Q25381,2E-50,"Actin, muscle",,,,,,,
+CGI_10000003,Q5M8C6,3E-13,Fibrinogen-like protein 1,,,,,,,
+CGI_10000011,D2GXS7,1E-09,Tripartite motif-containing protein 2,,,,,,,
+CGI_10000012,P07813,4E-142,Leucine--tRNA ligase,,,,,,,
+CGI_10000013,P49411,2E-32,"Elongation factor Tu, mitochondrial",,,,,,,
+CGI_10000015,Q9BYW2,3E-38,Histone-lysine N-methyltransferase SETD2,,,,,,,
+CGI_10000016,P86854,2E-12,Perlucin-like protein,,,,,,,
+CGI_10000019,Q5JXM2,9E-09,UPF0624 protein C6orf186,,,,,,,
+```
+
+
+#sqlshare - just slim from DEG
+```
+SELECT 
+CGI_ID,
+GOslim_bin,
+aspect  
+  FROM [sr320@washington.edu].[Cgigas-DEGlist-sql]deg
+left join
+[sr320@washington.edu].[qDOD_Cgigas_GOslim_DISTINCT]sl
+on
+deg.baseMean=sl.CGI_ID
+where
+aspect like 'P'  
+
+```
+
+---
+
+
+
+
+
+
+
+Get All SPIDS
+```
+awk -F"," '{print $2}' CGI-deseqlist-join.csv
+```
+
+
+
+<img src="http://eagle.fish.washington.edu/cnidarian/skitch/DAVID__Functional_Annotation_Tools_1A7034CA.png" alt="DAVID__Functional_Annotation_Tools_1A7034CA.png"/>
